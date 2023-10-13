@@ -1,0 +1,70 @@
+
+import Foundation
+
+public enum MBUserDefultsKeys: String {
+    
+    case user_dni
+    case user_dni_auxiliar
+    case user_name_value
+    case user_name_value_auxliar
+    case user_auth_value
+    case check_dni
+    case buhofacil_active_value
+    case biometry_active_value
+    case transfer_active_value
+    case qr_active_value
+    case biometry_option_secondary_value
+    case biometry_account_name
+    case cookie_value_download
+    case biometry_deleted_from_configuration
+    case biometry_isva_status
+    case biometry_register_status
+    case not_today_flag
+    case from_switch_enroll
+    case is_pop_error_registry
+    case is_pop_error_bio_registry
+    case is_error_activate_buho
+    case daily_check_biometry_register
+    case tenant_mobile_hipotecario
+    case token_defaults
+    case expire_time
+    case token_apns
+    case publicKey
+    case savedContext
+    case isBiometryForTransferEnabled
+    case hasDismissedMovementAnalysisTabToolTip
+    case show_popup_onlyToday_biobuho_notRegistered
+    case newLoginSplashFlag
+    case isAnUpdatePostV6
+    case last_login_date
+    case token_remain_time
+    case futureMaintenanceMessage
+    case softtoken_id
+    case softtoken_seed
+    case softtoken_countdown_time
+    case softtoken_algorithm
+    case countdown_softtoken_block
+    case isBiometricEnabled
+    case show_softtoken_campaign
+    case is_softtoken_registered
+    case last_softtoken_used
+    case show_onboarding
+    case show_onboarding_hml
+    case link_sucursal_hml
+    case tenure_ddjj_sell_dollars
+    case tenure_ddjj_sell_pesos
+    case tenure_ddjj_purchase_dollars
+    case tenure_ddjj_purchase_pesos
+    case show_data_valid
+    case no_pack_duo
+    case easy_pack_duo
+    case buho_pack_duo
+    case gold_pack_duo
+    case platinum_pack_duo
+    case black_pack_duo
+    case user_gender
+    case operationGiud
+    case operationId
+    case scan_dni_status
+    case id_referred
+}

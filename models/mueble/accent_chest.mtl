@@ -1,0 +1,17 @@
+# Blender MTL File: 'accent_chest.blend'
+# Material Count: 1
+
+newmtl accent_cabinet_Mat
+Ns 359.999993
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump E:\\Storage\\Storage Files\\Portfolio Models\\Accent Chest\\Submitted\\accent_chest_JPG_4096\\accent_cabinet_Mat_Normal.jpg
+map_Kd E:\\Storage\\Storage Files\\Portfolio Models\\Accent Chest\\Submitted\\accent_chest_JPG_4096\\accent_cabinet_Mat_BaseColor.jpg
+map_Ks E:\\Storage\\Storage Files\\Portfolio Models\\Accent Chest\\Submitted\\accent_chest_JPG_4096\\accent_cabinet_Mat_SpecularLvl.jpg
+map_Ns E:\\Storage\\Storage Files\\Portfolio Models\\Accent Chest\\Submitted\\accent_chest_JPG_4096\\accent_cabinet_Mat_Roughness.jpg
+refl E:\\Storage\\Storage Files\\Portfolio Models\\Accent Chest\\Submitted\\accent_chest_JPG_4096\\accent_cabinet_Mat_Metallic.jpg

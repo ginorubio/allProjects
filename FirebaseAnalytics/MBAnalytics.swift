@@ -1,0 +1,382 @@
+//
+//  MBFirebaseAnalytics.swift
+//  HipotecarioApp
+//
+//  Created by iMac on 05/02/2019.
+//  Copyright © 2019 Hipotecario. All rights reserved.
+//
+
+import FirebaseAnalytics
+
+protocol MBAnalyticsProtocol {
+    func logEvent(name: MBEvent, bundle: [String: Any]?)
+}
+
+final class MBAnalytics: MBAnalyticsProtocol {
+    static var instance = MBAnalytics()
+
+    func logEvent(name: MBEvent, bundle: [String: Any]?) {
+        DispatchQueue.main.async {
+            Analytics.logEvent(name.rawValue, parameters: bundle)
+        }
+    }
+}
+
+extension MBAnalytics {
+    func addUserId(id: String) {
+        Analytics.setUserID(id)
+    }
+}
+
+enum MBEvent: String {
+
+    //Account
+    case deleteAccountDelete = "account_delete"
+
+    //Beneficiaries
+    case editBeneficiariesDetail = "beneficiaries_details_edit" //Detalle de beneficiario*
+    case deleteBeneficiariesDetail = "beneficiaries_details_delete" // Detalle de beneficiario*
+
+    //Terms
+    case fixedStopRenovarionsTerms = "fixed_terms_stop_renovations" //Fixed terms details
+    case fixedStopRenovarionsTermsCompleted = "fixed_terms_stop_renovations_complete"//Fixed terms details
+    case newRequestFixedTermsCompleted = "fixed_terms_new_request_complete" //Fixed term new request
+    case fixedTermsNewSelectedUVA = "fixed_terms_new_selected_uva" //Fixed term new request
+    case fixedTermsNewSimulationCompleted = "fixed_terms_new_simulation_complete" //Fixed term new request
+    case requestIdentityValidator = "identityValidator_request" //identity validator
+
+    //Login
+    case loginSuccessful = "loginSuccessful" //login*
+
+    //Services
+    case addNewScheduleServices = "ScheduleServicesAddNew-ok" //schedule services add new
+    case newScheduleServicesFail = "ScheduleServices-get-failed" //schedule services add new
+    case scheduleServicesOk = "ScheduleServices-get-ok" //schedule services get
+    case scheduleServicesModifyCompleted = "ScheduleServices-modify-complete" //schedule services
+    case scheduleServicesModifyFail = "ScheduleServices-modify-failed" //schedule services
+    case scheduleServicesAddNewIdentityValidatorOk = "ScheduleServicesAddNew-identityValidator-ok" //services payment
+    case paymentSuccess = "payment_success"
+    //Transfer
+    case addNewTransferLimitRequest = "transfer_limit_add_new_request" //transfer limit *
+
+    //Vouchers
+    case transferCompleted = "transfer_complete" // transfer complete *
+    case shareVouchers = "vouchers_share" //*
+    case transferSuccess = "transfer_success" //*
+    case transferFailed = "transfer_failed" // transfer fail
+    case saveVoucherSuccessfull = "vouchers_save_successful" //not applicable for ios
+    case saveVoucherFailed = "vouchers_save_failed" //not applicable for ios
+
+    //CreditCard
+    case shareCreditCardLastStatement = "credit_card_last_statement_share" //ultimo detalle de tarjeta de credito
+    case saveCreditCardLastStatementAsPDF = "credit_card_last_statement_save_pdf_complete" //ultimo detalle de tarjeta de credito
+    case saveCreditCardLastStatementAsPDFDidFail = "credit_card_last_statement_save_pdf_failed" //ultimo detalle de tarjeta de credito
+    case saveCreditCardLastStatementAsPNGCompleted = "credit_card_last_statement_save_png_complete" //ultimo detalle de tarjeta de credito
+    case creditCardPaymentOk = "credit_card_payment_ok" //pago de tarjeta de credito*
+    case creditCardPaymentDidFail = "credit_card_payment_failed" // pago de tarjeta de credito*
+    case creditCardPayment = "credit_card_payment" //pago de tarjeta de credito*
+    case changeCreditCardPaymentMethod = "credit_card_change_payment_method" // metodo de pago tarjeta de credito
+    case changeCreditCardPaymentMethodOk = "credit_card_change_payment_method_ok" // metodo de pago tarjeta de credito
+    case deleteAditicionalCrediCard = "aditinal_tc_delete" //Tarjetas de creditos adicionales*
+    case didEnterToCreditCardDetail = "credit_card_page"
+    case didSwipeCreditCard = "credit_card_change_card_swipe"
+    case didClickOnLimits = "credit_card_limits_click"
+    case creditCardLimits = "credit_card_limits"
+    case creditCardRequestCancel = "credit_card_request_cancel"
+    case didClickOnChangeCreditCardPaymentMethod = "credit_card_change_payment_method_click"
+    case didClickOnStopDebit = "credit_card_stop_debit_click"
+    case didClickOnDigitalStatement = "credit_card_digital_statement_click"
+    case didClickOnAditionals = "credit_card_aditionals_click"
+    case didClickOnMoreCreditCardInformation = "credit_card_info_click"
+    case didClickonSeeLastStatement = "credit_card_last_statement_block_click"
+    case didClickOnSearchMovements = "credit_card_search_movements_click"
+    case didTapAvailableLimitsCards = "credit_card_limits_click1"
+    case didTapAvailableLimitsMovements = "credit_card_limits_click2"
+    case didTapCCLimitsConfirm = "credit_card_limits_confirm"
+    case didTapCCLimitsCancel = "credit_card_limits_cancel"
+    case didTapSurveyConfirm = "credit_card_survey"
+    case didTapSurveyCancel = "credit_card_survey_cancel"
+    case didSelectSurveyLowLimit = "credit_card_low_limit"
+    case didSelectSurveyBestLimit = "credit_card_best_limit"
+    case didSelectSurveyOffer = "credit_card_offer_only"
+    case didSelectSurveyTempLimit = "credit_card_transitory_limit"
+    case didSelectSurveyOthers = "credit_card_other_motives"
+
+    // Condolidated Home
+    case alertsClick = "alerts_click"
+    case clickOnHomeAcocuntsBalance = "home_accounts_balance_click"
+    case clickOnAccountBalanceMovements = "home_accounts_balance_account_movements_click"
+    case clickOnHideBalance = "home_accounts_balance_hide_balance_click"
+    case clickOnInvestments = "home_accounts_balance_investments_click"
+    case clickOnAccountsBalance = "home_accounts_balance_accounts_click"
+    case clickShowCarouselAccounts = "home_view_accounts_carousel"
+
+    // TabBar tags
+    case payServicesTab = "home_tab_bar_pays"
+    case transferMoneyTab = "home_tab_bar_transfer"
+    case analisysTooltipTab = "home_tab_bar_analysis"
+    case sellDollarsTab = "home_tab_bar_dollars"
+    case loansTab = "home_tab_loans"
+    
+    // TC Block
+    case clickOnCreditCardBlock = "home_credit_card_block_click"
+
+    // Shortcuts
+    case clickOnHomeQuickNewTransfer = "home_quick_access_click_new_transfer"
+    case clickOnHomeQuickNewCreditCardPayment = "home_quick_access_click_pay_tc"
+    case clickOnHomeQuickServicePayment = "home_quick_access_click_pay_service"
+    case clickOnHomeQuickVoucher = "home_quick_access_click_view_voucher"
+    case clickOnHomeQuickFixTerms = "home_quick_access_click_new_fix_term"
+    case clickOnHomeQuickCreditCardResume = "home_quick_access_click_tc_resume"
+    case clickOnHomeQuickSellDollars = "home_quick_access_click_sell_dollars"
+    case clickOnHomeQuickOnlineTurns = "home_quick_access_click_online_turns"
+    case clickOnHomeQuickOpenAccount = "home_quick_access_click_open_account"
+
+    // Latest movements
+    case clickOnHomeLatestMovementsBlock = "home_latest_movements_block_click"
+
+    // Consumption Suggestions
+    case didClickOnConsumptionSuggestionDetail = "consumption_suggestion_detail_click"
+
+    // Movements Analysis PFM
+    case didAccessMovementsAnalysis = "pfm_access_click"
+    case pfmMonthlyIncomePesosPage = "pfm_monthly_income_pesos_page"
+    case pfmMonthlyExpensePesosPage = "pfm_monthly_expense_pesos_page"
+    case pfmMonthlyIncomeDollarsPage = "pfm_monthly_income_dolar_page"
+    case pfmMonthlyExpenseDollarsPage = "pfm_monthly_expense_dolar_page"
+
+    case pfmYearlyIncomePesosPage = "pfm_yearly_income_pesos_page"
+    case pfmYearlyExpensePesosPage = "pfm_yearly_expense_pesos_page"
+    case pfmYearlyIncomeDollarsPage = "pfm_yearly_income_dolar_page"
+    case pfmYearlyExpenseDollarsPage = "pfm_yearly_expense_dolar_page"
+
+    case pfmPreviousMonthTapped = "pfm_previous_month_click"
+    case pfmErrorPage = "pfm_error_page"
+    case pfmErrorRetryTapped = "pfm_error_retry_click"
+
+    // Play Sistemico Analysis
+    case didTapOnAgreeOnboardingButton = "ps_onboarding_agree"
+    case didTapOnDisagreeOnboardingButton = "ps_onboarding_disagree"
+    case didTapOnAgreeFavoriteAccountButton = "ps_favorite_account_agree"
+    case didTapOnDisagreeFavoriteAccountButton = "ps_favorite_account_disagree"
+    case didTapOnAgreeOnboardingV2Button = "ps_onboarding_agree_v3"
+    case didTapOnDisagreeOnboardingV2Button = "ps_onboarding_disagree_v3"
+    case didSendMoneyConnectionError = "ps_send_money_connection_error"
+    case didTapOnModoMap = "home_quick_access_click_modo_map"
+
+    // Fondos Coomunes
+    case didAccessMutualFunds = "mutual_funds_access_click"
+
+    //Biometry Analysis
+
+    //Biometry Add Campagin Screen
+    case didOnTapUseFinger = "biometric_btn_use_finger"
+    case didOnTapUseFace = "biometric_btn_use_face"
+    case didOnTapUseOnlyBuho = "biometric_btn_use_buho"
+    case didOnTapNotNow = "biometric_btn_not_now"
+    case didOnTapNotNowBuho = "biometric_btn_not_now_buho"
+
+    //Biometry Warning OTP Screen
+    case didOnTapIsMyNumber = "biometric_btn_my_number"
+    case didOnTapNotMyNumber = "biometric_btn_not_my_number"
+    case didOnTapExitRegister = "biometric_btn_exit"
+
+
+    //Security Configuration Screen
+    case didOnSwitchFingerOn = "biometric_switch_on_fingerprint"
+    case didOnSwitchFaceOn = "biometric_switch_on_face"
+    case didOnSwitchBuhoOn = "biometric_switch_on_buho"
+
+    case didOnSwitchFingerOff = "biometric_switch_off_fingerprint"
+    case didOnSwitchFaceOff = "biometric_switch_off_face"
+    case didOnSwitchBuhoOff = "biometric_switch_off_buho"
+
+    case didOnSwitchBuhoOnSuccess = "biometric_switch_on_buho_success"
+    case didOnSwitchBuhoOffSuccess = "biometric_switch_off_buho_success"
+
+    case didOnSwitchFingerOnSuccess = "biometric_switch_on_fingerprint_success"
+    case didOnSwitchFingerOffSuccess = "biometric_switch_off_fingerprint_success"
+
+    case didOnSwitchFaceOnSuccess = "biometric_switch_on_face_success"
+    case didOnSwitchFaceOffSuccess = "biometric_switch_off_face_success"
+
+    //Congratulations Popup
+    case didSelectCongratsOnlyBuhoFirstButton = "biometric_device_buho_success"
+    case didSelectCongratsOnlyBuhoSecondButton = "biometric_device_traditional_start"
+
+    //Not Now Popup
+    case didSelectValidateButton = "biometric_device_validate_now"
+    case didSelectValidateLaterButton = "biometric_device_validate_not_now"
+
+    //Login traditional/buho facil - Switch Activation - Screen
+    case didSelectSwitchOnBiometryFaceBuhoLogin = "biometric_switch_on_face_buho_login"
+    case didSelectSwitchOnBiometryFaceLogin = "biometric_switch_on_face_login"
+    case didSelectSwitchOnBiometryTouchBuhoLogin = "biometric_switch_on_finger_buho_login"
+    case didSelectSwitchOnBiometryTouchLogin = "biometric_switch_on_finger_login"
+
+    case didSelectSwitchOnBiometryBuhoLogin = "biometric_switch_on_buho_login"
+
+    //Rating Screens
+    case click_rating_button = "satisfaction_btn_floating"
+    case face_rating_angry = "satisfaction_face_ungry"
+    case face_rating_sad = "satisfaction_face_bad"
+    case face_rating_meh = "satisfaction_face_neutral"
+    case face_rating_happy = "satisfaction_face_happy"
+    case face_rating_great = "satisfaction_face_very_happy"
+    case rating_button_close = "faces_btn_cross"
+    case rating_button_satisfaction_close = "satisfaction_btn_cross"
+    case rating_satisfaction_button_done = "satisfaction_btn_rate"
+    case rating_bad_button_close = "satisfaction_btn_cancel"
+    case rating_satisfaction_button_send = "satisfaction_btn_send"
+
+    // Bloque de Claves
+    case appPassword = "App_Password"
+    case appBuho = "App_BuhoFacil"
+    case appRedLink = "App_RedLink"
+    case appPin = "App_Pin"
+    case appPil = "App_Pil"
+    case appSoftToken = "App_SoftToken"
+    case cards = "your_cards"
+    case creditCardOwner = "tab_creditcard"
+    case homeCreditCard = "credit_card"
+
+    // Debit Card
+    case didTapOnCleanPin = "debit_card_password_pin_click"
+    case didTapOnCleanPil = "debit_card_password_pil_click"
+    case didTapOnModifyLimits = "debit_card_modify_limits_click"
+    case didTapOnReposition = "debit_card_reposition_click"
+
+    //Onboarding
+    case didTapButtonNewClient = "onboard_new_client"
+    case didTapButtonPromotions = "onboard_promotions"
+    case didTapButtonClient = "onboard_client"
+    case onboardLogin = "onboard_login"
+    case onboardVUInitSuccessful = "onboard_vu_init_successful"
+    
+    case onboardErrorRegisterInit = "onboard_init_register_error_sv"
+    case onboardSucessfullRegisterInit = "onboard_init_register_ok_sv"
+
+    case onboardErrorFrontDNISystem = "onboard_photo_error_system_front_dni"
+    case onboardSucessfullFrontDNISystem = "onboard_photo_ok_system_front_dni"
+    
+    case onboardErrorFrontDNIServer = "onboard_photo_error_sv_front_dni"
+    case onboardSucessfullFrontDNIServer = "onboard_photo_ok_sv_front_dni"
+
+    case onboardErrorBackDNISystem = "onboard_photo_error_system_back_dni"
+    case onboardSucessfullBackDNISystem = "onboard_photo_ok_system_back_dni"
+
+    case onboardErrorBackDNIServer = "onboard_photo_error_sv_back_dni"
+    case onboardSucessfullBackDNIServer = "onboard_photo_ok_sv_back_dni"
+    
+    case onboardErrorTakeSelfie = "onboard_photo_error_system_take_selfie"
+    case onboardSucessfullTakeSelfie = "onboard_photo_ok_system_take_selfie"
+    case onboardMaxRetry = "onboard_close_app_max_retries"
+
+    //Retry
+
+    case onboardErrorFrontDNIServerRetry = "onboard_photo_error_sv_front_dni_rt"
+    case onboardSucessfullFrontDNIServerRetry = "onboard_photo_ok_sv_front_dni_rt"
+
+    case onboardErrorBackDNIServerRetry = "onboard_photo_error_sv_back_dni_rt"
+    case onboardSucessfullBackDNIServerRetry = "onboard_photo_ok_sv_back_dni_rt"
+    
+    
+    case onboardErrorDniBarCodeSave = "onboard_error_sv_barcode_dni"
+    case onboardSuccessfullDniBarCodeSave = "onboard_ok_sv_barcode_dni"
+
+    case onboardErrorDniBarCodeSaveRetry = "onboard_error_sv_barcode_dni_rt"
+    case onboardSuccessfullDniBarCodeSaveRetry = "onboard_ok_sv_barcode_dni_rt"
+    
+    //Finish Onboarding
+  
+    case onboardErrorRegisterTakeSelfie = "onboard_register_error_sv"
+    case onboardSucessfullRegisterTakeSelfie = "onboard_register_ok_sv"
+    
+    case onboardErrorEndOperation = "onboard_end_operation_error_sv"
+    case onboardSucessfullEndOperation = "onboard_end_operation_ok_sv"
+    
+    case onboardErrorRegisterTakeSelfieRetry = "onboard_register_error_sv_rt"
+    case onboardSucessfullRegisterTakeSelfieRetry  = "onboard_register_ok_sv_rt"
+    
+    case onboardErrorEndOperationRetry  = "onboard_end_operation_error_sv_rt"
+    case onboardSucessfullEndOperationRetry = "onboard_end_operation_ok_sv_rt"
+
+    case onboardSaveVuDecline = "onboard_guardar_vu_rechazado"
+    
+    case onboardSaveVUOK = "onboard_guardar_vu_ok"
+    case onboardVUOperation = "onboard_vu_operation"
+    case onboardVUEnd = "onboard_vu_end"
+    case onboardValidateVUOK = "onboard_validar_vu_ok"
+    case onboardValidateDecline = "onboard_validar_vu_rechazado"
+    case onboardOfferStandAlone = "onboard_oferta_standalone"
+    case onboardOfferGold = "onboard_oferta_gold"
+    case onboardOfferPlatinium = "onboard_oferta_plat"
+    case onboardOfferBlack = "onboard_oferta_black"
+    case onboardOfferSelect = "onboard_oferta_eligida"
+    case onboardErrorRegister = "onboard_alta_error"
+    case onboardErrorBatch = "onboard_alta_bach"
+    case onboardRegisterSuccessful = "onboard_alta_ok"
+    
+    // Personal Loans & Advance New Offer Carousel
+    case campaignPPCardTap = "pp_home_card"
+    case campaignAdvanceCardTap = "ppad_home_card"
+    case campaignAdvanceRemainingCardTap = "ppadrem_home_card"
+    case campaignAdvanceRetiredCardTap = "ppadj_home_card"
+    case campaignAdvanceRetiredRemainingCardTap = "ppadjrem_home_card"
+    // Personal Loans & Advance New Offer Modal
+    case campaignPPModalContinue = "pp_home_modal"
+    case campaignPPModalDismiss = "pp_home_modal_dismiss"
+    case campaignAdvanceModalContinue = "ppad_home_modal"
+    case campaignAdvanceModalDismiss = "ppad_home_modal_dismiss"
+    case campaignAdvanceRemainingModalContinue = "ppadrem_home_modal"
+    case campaignAdvanceRemainingModalDismiss = "ppadrem_home_modal_dismiss"
+    case campaignAdvanceRetiredModalContinue = "ppadj_home_modal"
+    case campaignAdvanceRetiredModalDismiss = "ppadj_home_modal_dismiss"
+    case campaignAdvanceRetiredRemainingModalContinue = "ppadjrem_home_modal"
+    case campaignAdvanceRetiredRemainingModalDismiss = "ppadjrem_home_modal_dismiss"
+    // Personal Loans & Advance Consolidated
+    case loanConsolidatedGetPPPreApproved = "pp_cons_preaprob"
+    case loanConsolidatedGetAdvance = "ppad_cons_1a1"
+    case loanConsolidatedGetAdvancePreApproved = "ppad_cons_preaprob"
+    case loanConsolidatedGetAdvancePreApprovedRemaining = "ppadrem_cons_preaprob"
+    case loanConsolidatedRetiredGetAdvance = "ppadj_cons_1a1"
+    case loanConsolidatedRetiredGetAdvancePreApproved = "ppadj_cons_preaprob"
+    case loanConsolidatedRetiredGetAdvancePreApprovedRemaining = "ppadjrem_cons_preaprob"
+    // Personal Loans & Advance DDJJ
+    case loanValidatePermissionPPNext = "pp_ddjj_next"
+    case loanValidatePermissionPPCancel = "pp_ddjj_cancel"
+    case loanValidatePermissionAdvanceNext = "ppad_ddjj_next"
+    case loanValidatePermissionAdvanceCancel = "ppad_ddjj_cancel"
+    case loanValidatePermissionRetiredNext = "ppadj_ddjj_next"
+    case loanValidatePermissionRetiredCancel = "ppadj_ddjj_cancel"
+    // Personal Loans & Advance Simulation
+    case loanValidateSimulationPPNext = "pp_sim_next"
+    case loanValidateSimulationPPCancel = "pp_sim_cancel"
+    case loanValidateSimulationAdvanceNext = "ppad_sim_next"
+    case loanValidateSimulationAdvanceCancel = "ppad_sim_cancel"
+    case loanValidateSimulationRetiredNext = "ppadj_sim_next"
+    case loanValidateSimulationRetiredCancel = "ppadj_sim_cancel"
+    case loanValidateSimulationPPIncreaseOffer = "pp_sim_mo"
+    case loanValidateSimulationPPIncreaseOfferContinue = "pp_mo_next"
+    case loanValidateSimulationPPIncreaseOfferBack = "pp_mo_back"
+    case loanValidateSimulationPPDate = "pp_sim_vto"
+    case loanValidateSimulationAdvanceDate = "ppad_sim_vto"
+    case loanValidateSimulationRetiredDate = "ppadj_sim_vto"
+    case loanValidateSimulationPPInsurance = "pp_sim_seg"
+    case loanValidateSimulationAdvanceInsurance = "ppad_sim_seg"
+    case loanValidateSimulationRetiredInsurance = "ppadj_sim_seg"
+    // Personal Loans & Advance Summary
+    case loanValidateSummaryPPNext = "pp_det_next"
+    case loanValidateSummaryPPEdit = "pp_det_edit"
+    case loanValidateSummaryPPTyC = "pp_det_tyc"
+    case loanValidateSummaryAdvanceNext = "ppad_det_next"
+    case loanValidateSummaryAdvanceEdit = "ppad_det_edit"
+    case loanValidateSummaryAdvanceTyC = "ppad_det_tyc"
+    case loanValidateSummaryRetiredNext = "ppadj_det_next"
+    case loanValidateSummaryRetiredEdit = "ppadj_det_edit"
+    case loanValidateSummaryRetiredTyC = "ppadj_det_tyc"
+    // Personal Loans & Advance Granted
+    case loanValidateSummaryPPHome = "pp_exit_home"
+    case loanValidateSummaryAdvanceHome = "ppad_exit_home"
+    case loanValidateSummaryRetiredHome = "ppadj_exit_home"
+}
